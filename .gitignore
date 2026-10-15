@@ -1,0 +1,13 @@
+# Archivos de entorno y credenciales (¡Nunca se suben!)
+.env
+.env.production
+.envtype
+
+# Dependencias de Composer (se instalan con composer install en cada servidor)
+/vendor/
+
+# Archivos del sistema operativo o editor
+.DS_Store
+*.swp
+*.swo
+.vim/
