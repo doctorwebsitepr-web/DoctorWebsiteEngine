@@ -115,4 +115,66 @@ class UserController extends Controller
         //$this->dd($datos);
 	    $this->view('alluser', ['usuarios' => $datos]);
     }
+
+    /**
+    * La función antes de arrancar la página principal ('/user')
+    *
+    */
+	public function iniciar(): void
+	{
+		$datos = [
+			'titulo' => "Bienvenido a Doctor Werbsite Cotizacion",
+			'descripcion' => "Un formulario básico para probar el método POST."
+		];
+
+		$this->view('iniciaruser', $datos);
+    }
+
+    public function iniciarcuenta() {
+        if( $_SERVER['REQUEST_METHOD'] === "POST" ) { 
+            $errores = [];
+            
+            $obtenerTexto = static function (string $campo) : string {
+                $valor = $_POST[$campo];
+                return is_string($valor) ? trim($valor) : '';
+            };
+            $usernameUser = $obtenerTexto('username');
+            $emailUser = $obtenerTexto('email');
+
+            $passwordUser = $_POST['password'] ?? '';
+            if (!is_string($passwordUser)) {
+                 $passwordUser = '';
+            }
+
+            if ( mb_strlen($usernameUser) < 3 || mb_strlen($usernameUser) > 50 || !preg_match('/\A[a-zA-Z0-9_.-]+\z/', $usernameUser) ) {
+                $errores[] = 'El username debe tener entre 3 y 50 caracteres y usar letras, números, punto, guion o guion bajo.';
+            }
+
+            if ( mb_strlen($emailUser) > 254 || filter_var($emailUser, FILTER_VALIDATE_EMAIL) === false) {
+                $errores[] = 'Ingresa un correo válido de hasta 254 caracteres.';
+            }
+
+            if (strlen($passwordUser) < 12) {
+                $errores[] = 'La contraseña debe tener al menos 12 caracteres.';
+            }
+
+            if ($errores) {
+            // Muestra errores
+            } else {
+                $passwordHash = password_hash($passwordUser, PASSWORD_DEFAULT);
+                
+                $data = [
+                    'correo' => $emailUser,
+                    'username' => $usernameUser,
+                    'password_hash' => $passwordHash,
+                    'role' => 'user',
+                    'estado_cuenta' => 'active'
+                ];
+                
+                $this->dd($data);
+                \UserModel::insertDB($data);
+                header('location: /');
+            }
+       }
+    }
 } 
