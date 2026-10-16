@@ -20,14 +20,14 @@ class UserController extends Controller
     * La función antes de arrancar la página principal ('/user')
     *
     */
-	public function index(): void
+	public function crearUserForm(): void
 	{
 		$datos = [
 			'titulo' => "Bienvenido a Doctor Werbsite Cotizacion",
 			'descripcion' => "Un formulario básico para probar el método POST."
 		];
 
-		$this->view('user', $datos);
+		$this->view('userViews/formUserCrear', $datos);
     }
     
     /**
@@ -36,7 +36,7 @@ class UserController extends Controller
      * con la base de datos. 
      *
      */
-    public function guardar(): void
+    public function crearUserPost(): void
     {
         if( $_SERVER['REQUEST_METHOD'] === "POST" ) { 
             $errores = [];
@@ -113,24 +113,24 @@ class UserController extends Controller
     public function allUser() {
         $datos = \UserModel::all(); //metodo modelos
         //$this->dd($datos);
-	    $this->view('alluser', ['usuarios' => $datos]);
+	    $this->view('userViews/alluser', ['usuarios' => $datos]);
     }
 
     /**
     * La función antes de arrancar la página principal ('/user')
     *
     */
-	public function iniciar(): void
+	public function iniciarUserForm(): void
 	{
 		$datos = [
 			'titulo' => "Bienvenido a Doctor Werbsite Cotizacion",
 			'descripcion' => "Un formulario básico para probar el método POST."
 		];
 
-		$this->view('iniciaruser', $datos);
+		$this->view('userViews/formUserIniciar', $datos);
     }
 
-    public function iniciarcuenta() {
+    public function iniciarUserPost() {
         if( $_SERVER['REQUEST_METHOD'] === "POST" ) { 
             $errores = [];
             

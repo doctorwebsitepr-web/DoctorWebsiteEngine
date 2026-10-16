@@ -7,7 +7,7 @@
 <body>
 	<h1> Formulario de usuario: </h1>
     <p> <?php echo htmlspecialchars($descripcion); ?> </p>
-    <form action="/formuseriniciar" method="post">       
+    <form action="/user/formuserfuncioniniciar" method="post">       
 
         <label for="username"> UserName </label>
         <input type="text" name="username">
