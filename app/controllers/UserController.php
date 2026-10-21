@@ -177,4 +177,44 @@ class UserController extends Controller
             }
        }
     }
+    /**
+    * La función antes de arrancar la página principal ('/user')
+    *
+    */
+	public function verificarUserForm(): void
+	{
+		$datos = [
+			'titulo' => "Bienvenido a Doctor Werbsite Cotizacion",
+			'descripcion' => "Un formulario básico para probar el método POST."
+		];
+
+		$this->view('userViews/formUserVerificar', $datos);
+    }
+    public function verificarUserPost() {
+        if( $_SERVER['REQUEST_METHOD'] === "POST" ) { 
+            $errores = [];
+            
+            $obtenerTexto = static function (string $campo) : string {
+                $valor = $_POST[$campo];
+                return is_string($valor) ? trim($valor) : '';
+            };
+            $emailUser = $obtenerTexto('email'); 
+
+            if ( mb_strlen($emailUser) > 254 || filter_var($emailUser, FILTER_VALIDATE_EMAIL) === false) {
+                $errores[] = 'Ingresa un correo válido de hasta 254 caracteres.';
+            }
+
+            if ($errores) {
+            // Muestra errores
+            } else {
+                $data = [
+                    'correo' => $emailUser
+                ];
+                
+                $this->dd($data);
+                \UserModel::insertDB($data);
+                header('location: /');
+            }
+       }
+    } 
 } 
