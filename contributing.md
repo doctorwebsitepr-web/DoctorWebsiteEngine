@@ -23,7 +23,7 @@ Every commit message must follow this structure:
     2. Adaptive maintenance
     3. Perfective maintenance
     4. Preventive maintenance
-- **Docs** = Documentation updates
+- **DOCS** = Documentation updates
 - **REFACTOR** = Code restructing and style improvements without changing intended functionality
 - **TEST** = Adding or updating test.
 

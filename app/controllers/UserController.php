@@ -25,9 +25,20 @@ class UserController extends Controller
 		$datos = [
 			'titulo' => "Bienvenido a Doctor Werbsite Cotizacion",
 			'descripcion' => "Un formulario básico para probar el método POST."
-		];
+        ];
 
-		$this->view('userViews/formUserCrear', $datos);
+        $test = htmlspecialchars($_GET['email'] ?? 'NOEMAIL');
+        if ($test === 'NOEMAIL') 
+        {
+            $datos = ['email' => ''];
+		    $this->view('userViews/formUserCrear');
+        } 
+        else 
+        { 
+            $datos = ['email' => $test];
+		    $this->view('userViews/formUserCrear', $datos); 
+        }
+
     }
     
     /**
@@ -207,12 +218,19 @@ class UserController extends Controller
             if ($errores) {
             // Muestra errores
             } else {
-                $data = [
-                    'correo' => $emailUser
-                ];
-                
-                $this->dd($data);
-                \UserModel::insertDB($data);
+                if (\UserModel::existeEnLaDB(['correo' => $emailUser])) { 
+                    //$this->dd($siExiste); 
+                    // ¿Que ocurre cuando existe el email en la tablaSQL usuarios?
+                    $url = "/user/formuseriniciar?email=" . $emailUser;
+                    header("Location: " . $url);
+                    exit(); 
+                } else { 
+                    //$this->dd($noExiste);
+                    // ¿Que ocurre cuando no existe el email en la tablaSQL usuarios?
+                    $url = "/user/formusercrear?email=" . $emailUser;
+                    header("Location: " . $url);
+                    exit(); 
+                }
                 header('location: /');
             }
        }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title> <?php echo htmlspecialchars($titulo); ?> </title>
+	<title> Form User </title>
 </head>
 <body>
 	<h1> Formulario de usuario: </h1>
@@ -21,7 +21,7 @@
         <input type="text" name="username">
 
         <label for="email"> Email: </label>      
-        <input type="email" name="email">  
+        <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>">  
 
         <label for="password"> Password </label>
         <input type="password" name="password">
